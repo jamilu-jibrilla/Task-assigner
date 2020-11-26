@@ -1,50 +1,72 @@
 let button = document.getElementById("button");
-let anime = document.getElementsByClassName("animate")[0]
+let anime = document.getElementsByClassName("animate")[0];
+let takeout = document.getElementsByClassName("takeout")[0];
+// tasks
+let dishWasher = document.querySelectorAll("#dish-washer");
+let floorMopper = document.querySelectorAll("#mop-floor");
+let fetchWater = document.querySelectorAll("#fetch-water");
 //  weeks
 let mon = document.getElementById("monday");
+let mon_lunch_dinner = document.querySelector("#monday2");
+
 // mondays breakfast,dinner and lunch.
 let mon_breakfast = document.querySelector("#mon_breakfast")
 let mon_lunch = document.querySelector("#mon_lunch")
 let mon_dinner = document.querySelector("#mon_dinner")
 
 let tue = document.getElementById("tuesday");
+let tue_lunch_dinner = document.querySelector("#tuesday2");
 // // tuesdays breakfast,dinner and lunch.
 let tue_breakfast = document.querySelector("#tue_breakfast")
 let tue_lunch = document.querySelector("#tue_lunch")
 let tue_dinner = document.querySelector("#tue_dinner")
 
 let wed = document.getElementById("wednesday");
+let wed_lunch_dinner = document.querySelector("#wednesday2");
 // // wednesday's breakfast,dinner and lunch.
 let wed_breakfast = document.querySelector("#wed_breakfast")
 let wed_lunch = document.querySelector("#wed_lunch")
 let wed_dinner = document.querySelector("#wed_dinner")
 
 let thur = document.getElementById("thursday");
+let thur_lunch_dinner = document.querySelector("#thursday2");
 // // thursdays breakfast,dinner and lunch.
 let thur_breakfast = document.querySelector("#thur_breakfast")
 let thur_lunch = document.querySelector("#thur_lunch")
 let thur_dinner = document.querySelector("#thur_dinner")
 
 let fri = document.getElementById("friday");
+let fri_lunch_dinner = document.querySelector("#friday2");
 // // mondays breakfast,dinner and lunch.
 let fri_breakfast = document.querySelector("#fri_breakfast")
 let fri_lunch = document.querySelector("#fri_lunch")
 let fri_dinner = document.querySelector("#fri_dinner")
 
 let sat = document.getElementById("saturday");
+let sat_lunch_dinner = document.querySelector("#saturday2");
 // // saturdays breakfast,dinner and lunch.
 let sat_breakfast = document.querySelector("#sat_breakfast")
 let sat_lunch = document.querySelector("#sat_lunch")
 let sat_dinner = document.querySelector("#sat_dinner")
 
 let sun = document.getElementById("sunday")
+let sun_lunch_dinner = document.querySelector("#sunday2")
 // sundays breakfast,dinner and lunch.
 let sun_breakfast = document.querySelector("#sun_breakfast")
 let sun_lunch = document.querySelector("#sun_lunch")
 let sun_dinner = document.querySelector("#sun_dinner")
 
+let dishWashers = [" Zainab ", " Aisha ", " Ummul "," Sakina ", " Farida "];
+
+
+let waterSuppliers = [" Sadiq ", " Murtala ", " Jamilu ", " Mahmud ", " Mujahid "];
+
+
+let floorMoppers = dishWashers.concat(waterSuppliers);
+
+
 let WeeksChefAndRecipe = {
-    chefs: ["farida", "murtala", "jamilu", "sakina", "Ashraf", "sadiq"],  
+    chefs: ["Farida", "Murtala", "Walida", "Sakina", "Ashraf", "Sadiq", "Jamilu"],  
    
     ["food and recipe"]: 
     {
@@ -72,7 +94,7 @@ let WeeksChefAndRecipe = {
             Oil,Grounded scotch bonnet pepper and onion, tomatoes and red pepper, Seasoning
             Meat, Fried fish (scumbia), Tomato paste`],
 
-            [` [Rice and stew] ingredients: 4 cups rice
+            [` [ Rice and stew ] ingredients: 4 cups rice
             20 fresh tomatoes big,
             5 cup vegetable oil,
             10 fresh pepper big,
@@ -110,7 +132,7 @@ let WeeksChefAndRecipe = {
             One medium-sized Stock fish head (okporoko),
             20g Dawadawa or opkei (local ingredients). `],
 
-            [` Tuwo with okro soup ingredients: 800 g Fresh Okro ( cut up in thin rings by hand or with a food processor.),
+            [` [ Tuwo with okro soup ] ingredients: 800 g Fresh Okro ( cut up in thin rings by hand or with a food processor.),
             2 Medium Onions,
             2 Large red bell peppers,
             2 habanero or Jamaican hot pepper,
@@ -122,7 +144,7 @@ let WeeksChefAndRecipe = {
             700 g smoked turkey,
             300 g stockfish.`],
 
-            [` [Rice with Beef stew] ingredients: 1-2 pound stew beef , cut in small pieces
+            [` [ Rice with Beef stew ] ingredients: 1-2 pound stew beef , cut in small pieces
             1/2 -1 cup oil (Canola, Vegetable or Corn) , adjust as needed
             1 medium yellow onion,
             4 roma tomatoes , they are less acidic,
@@ -190,71 +212,92 @@ let WeeksChefAndRecipe = {
     },
 };
 
-let weeks = {
-    monday: "",
-    tuesday: "", 
-    wednesday: "",
-    thursday: "",
-    friday: "",
-    saturday:"",
-    sunday:"",
+function randomAssignment(min = 0, max = 5) {
+    let rand = min - 0.5 + Math.random() *  (max - min + 1)
+    return Math.round(rand)
 }
-
 function assigner() {
-    function randomAssignment(min = 0, max = 5) {
-        let rand = min - 0.5 + Math.random() *  (max - min + 1)
-        return Math.round(rand)
+    for(let item of fetchWater) {
+        let names = []
+        function noRepeat() {
+            for(let i = 0; i < waterSuppliers.length ; i++){
+                names.push( waterSuppliers[randomAssignment(0, (waterSuppliers.length) - 1)])
+                names = [...new Set(names)] 
+            }
+        }
+        noRepeat()
+       item.append(document.createTextNode( names[0] ))
+       item.append(document.createTextNode( names[1] )) 
+       item.append(document.createTextNode(names[2] ));
     }
-        // name
-        // food and 
-        // recipe will be randomly selected and appended from monday to sunday
-    for (let key in weeks) {
-        weeks[key] = `Name: ${WeeksChefAndRecipe.chefs[randomAssignment()]}`   
-    };
+
+    for(let item of dishWasher) {
+        item.append(document.createTextNode( dishWashers[randomAssignment(0, (dishWashers.length) - 1)] ))
+    }
+
+    for(let item of floorMopper) {
+        item.append(document.createTextNode( floorMoppers[randomAssignment(0, (floorMoppers.length) - 1)] ))
+    }
+
+
+    // name
+    // food and 
+    // recipe will be randomly selected and appended from monday to sunday
+    
     let length = WeeksChefAndRecipe["food and recipe"].morning.length - 1;
+    let length1 = WeeksChefAndRecipe.chefs.length - 1;
     let length2 = WeeksChefAndRecipe["food and recipe"].afternoon.length - 1;
     let length3 = WeeksChefAndRecipe["food and recipe"].night.length - 1;
     
-    // let morn = WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)];
-    // let noon = WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)];
-    // let night = WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)];
-    
-    mon.append(document.createTextNode(weeks.monday));
-
+    mon.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+    mon_lunch_dinner.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]))
+    // let ld = WeeksChefAndRecipe.chefs[randomAssignment(0, length1)] 
+    // for(let item of mon_lunch_dinner) {
+    //     item.append(document.createTextNode(ld))
+    // }
     mon_breakfast.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)]))
     mon_lunch.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)]))
     mon_dinner.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)]))
 
-
-    tue.append(document.createTextNode(weeks.tuesday));
+    tue.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+    tue_lunch_dinner.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+ 
     tue_breakfast.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)]))
     tue_lunch.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)]))
     tue_dinner.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)]))
 
 
-    wed.append(document.createTextNode(weeks.wednesday));
+    wed.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+    wed_lunch_dinner.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+
     wed_breakfast.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)]))
     wed_lunch.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)]))
     wed_dinner.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)]))
 
     
-    thur.append(document.createTextNode(weeks.thursday));
+    thur.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+    thur_lunch_dinner.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+   
     thur_breakfast.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)]))
     thur_lunch.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)]))
     thur_dinner.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)]))
 
-    fri.append(document.createTextNode(weeks.friday)); 
+    fri.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+    fri_lunch_dinner.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
     fri_breakfast.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)]))
     fri_lunch.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)]))
     fri_dinner.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)]))
 
     
-    sat.append(document.createTextNode(weeks.saturday))
+    sat.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+    sat_lunch_dinner.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+
     sat_breakfast.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)]))
     sat_lunch.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)]))
     sat_dinner.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)]))
 
-    sun.append(document.createTextNode(weeks.sunday))
+    sun.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
+    sun_lunch_dinner.append(document.createTextNode(WeeksChefAndRecipe.chefs[randomAssignment(0, length1)]));
     sun_breakfast.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].morning[randomAssignment(0, length)]))
     sun_lunch.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].afternoon[randomAssignment(0, length2)]))
     sun_dinner.append(document.createTextNode(WeeksChefAndRecipe["food and recipe"].night[randomAssignment(0, length3)]))
@@ -262,8 +305,10 @@ function assigner() {
 }   
 
 function animation() {
-    anime.classList.remove("remove")
-    anime.classList.add("animate")
+    anime.classList.remove("remove");
+    anime.classList.add("animate");
+    takeout.classList.add("animate")
+    takeout.classList.add("remove")
 }
 
 button.addEventListener("click", assigner,{once:true})
