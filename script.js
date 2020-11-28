@@ -221,16 +221,15 @@ function assigner() {
         let names = []
         for(let i=0; i < 3; i++) { 
             names.push(waterSuppliers[randomAssignment(0, (waterSuppliers.length) - 1)]);
-            names = [...new Set(names)] 
+            names = [...new Set(names)] ;
             if(names.length < 3) {
                 i--
             }
-            
         }
         if(names.length > 3) {
-            names.splice(3)
+            names.splice(3);
         }
-        
+       names =  names.join()
         return names;
     }
        
