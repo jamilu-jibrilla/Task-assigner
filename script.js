@@ -217,18 +217,25 @@ function randomAssignment(min = 0, max = 5) {
     return Math.round(rand)
 }
 function assigner() {
-    for(let item of fetchWater) {
+    function noRepeat() {
         let names = []
-        function noRepeat() {
-            for(let i = 0; i < waterSuppliers.length ; i++){
-                names.push( waterSuppliers[randomAssignment(0, (waterSuppliers.length) - 1)])
-                names = [...new Set(names)] 
+        for(let i=0; i < 3; i++) { 
+            names.push(waterSuppliers[randomAssignment(0, (waterSuppliers.length) - 1)]);
+            names = [...new Set(names)] 
+            if(names.length < 3) {
+                i--
             }
+            
         }
-        noRepeat()
-       item.append(document.createTextNode( names[0] ))
-       item.append(document.createTextNode( names[1] )) 
-       item.append(document.createTextNode(names[2] ));
+        if(names.length > 3) {
+            names.splice(3)
+        }
+        
+        return names;
+    }
+       
+    for(let item of fetchWater) {
+       item.append(...noRepeat())
     }
 
     for(let item of dishWasher) {
